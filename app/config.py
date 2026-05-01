@@ -7,8 +7,12 @@ from typing import Dict, Tuple
 BASE_DIR = Path(os.getenv("ACCENT_BASE_DIR", Path(__file__).resolve().parents[1]))
 REGISTRY_PATH = BASE_DIR / "model_registry.json"
 FALLBACK_MODEL_DIR = BASE_DIR / "runs" / "hubert_stage3_large_ft" / "final"
-DATA_ROOT = BASE_DIR / "data" / "librispeech"
-ACCENT_REF_CACHE = BASE_DIR / "runs" / "accent_reference_stats.pt"
+DATA_ROOT = Path(
+    os.getenv("ACCENT_DATA_ROOT", str(BASE_DIR / "data" / "librispeech"))
+)
+ACCENT_REF_CACHE = Path(
+    os.getenv("ACCENT_REF_CACHE", str(BASE_DIR / "runs" / "accent_reference_stats.pt"))
+)
 SCORING_CALIB_PATH = BASE_DIR / "scoring_calib.json"
 
 

@@ -58,6 +58,9 @@ checkpoints/
 *.pt
 *.bin
 *.safetensors
+hf_models/
+deployed_models/
+*.zip
 
 # Optional lockfiles (keep if you want reproducible installs)
 # frontend/package-lock.json

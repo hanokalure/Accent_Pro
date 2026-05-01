@@ -1,4 +1,5 @@
 from collections import defaultdict
+import os
 from pathlib import Path
 from typing import Dict, List
 
@@ -50,11 +51,26 @@ class AccentScorer:
         if self.cache_path.exists():
             return torch.load(self.cache_path, map_location="cpu")
 
+        libri_root = self.data_root / "LibriSpeech"
+        allow_download = os.getenv("ACCENT_BUILD_DOWNLOAD_LIBRISPEECH", "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }
+        if not libri_root.exists() and not allow_download:
+            raise RuntimeError(
+                "Accent reference stats cache is missing and LibriSpeech is not available. "
+                "Include accent_reference_stats.pt in your model bundle (bootstrap copies it to "
+                f"{self.cache_path}), set ACCENT_REF_CACHE to an existing .pt file, or place "
+                f"LibriSpeech under {self.data_root} and set ACCENT_BUILD_DOWNLOAD_LIBRISPEECH=1."
+            )
+
         self.cache_path.parent.mkdir(parents=True, exist_ok=True)
         ds = torchaudio.datasets.LIBRISPEECH(
             root=str(self.data_root),
             url=self.split,
-            download=False,
+            download=allow_download,
         )
         embeds: List[torch.Tensor] = []
         speaker_counts: Dict[int, int] = defaultdict(int)
