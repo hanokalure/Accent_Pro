@@ -1,0 +1,23 @@
+{
+  "active_model": "hubert_stage3_large_ft_v1",
+  "final_model": "hubert_stage3_large_ft_v1",
+  "dual_model": {
+    "enabled": true,
+    "content_model_key": "wav2vec2_stage2_best",
+    "content_model_path": "c:\\Accent_Cursor\\runs\\stage2_wav2vec2_ctc\\final"
+  },
+  "models": {
+    "hubert_stage3_large_ft_v1": {
+      "path": "c:\\Accent_Cursor\\runs\\hubert_stage3_large_ft\\final",
+      "family": "HuBERT",
+      "base_checkpoint": "facebook/hubert-large-ls960-ft",
+      "task": "CTC ASR for pronunciation scoring backend",
+      "trained_steps": 2000,
+      "train_dataset": "LibriSpeech train-clean-100 (subset run: 12000 samples)",
+      "eval_dataset": "LibriSpeech dev-clean (1000 samples)",
+      "wer": 0.023,
+      "approx_accuracy": 0.977,
+      "status": "final_production_locked"
+    }
+  }
+}

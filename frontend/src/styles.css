@@ -1,0 +1,184 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+
+body {
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+  margin: 0;
+  background: radial-gradient(circle at top, #1e293b, #0b1020 45%);
+  color: #e6edf6;
+  min-height: 100vh;
+}
+
+#root {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 16px 36px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-copy { max-width: 720px; }
+h1 { margin: 0; font-size: 2rem; color: #f8fafc; }
+h2 { margin: 0 0 6px; font-size: 1.08rem; color: #d8e3f2; }
+.muted { color: #93a4bc; font-size: 0.95rem; }
+
+.pill {
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: #cbd5e1;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.layout {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.panel,
+.result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.65), rgba(15, 23, 42, 0.95));
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.45);
+}
+
+.practice-panel { flex: 1.1; }
+.result-panel { flex: 0.9; }
+.result-card { height: 100%; }
+
+.row { margin: 8px 0; width: 100%; }
+label { display: block; font-weight: 600; margin-bottom: 6px; text-align: left; }
+
+textarea {
+  width: 100%;
+  min-height: 96px;
+  border-radius: 10px;
+  border: 1px solid #475569;
+  padding: 10px 12px;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.controls, .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.controls { justify-content: flex-start; }
+.actions { justify-content: center; margin-top: 10px; }
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 148px;
+  height: 42px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0 16px;
+  color: #f8fafc;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(2, 6, 23, 0.35);
+  transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+button:hover:enabled { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(2, 6, 23, 0.45); }
+button:active:enabled { transform: translateY(0); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.primary { background: linear-gradient(90deg, #2563eb, #7c3aed 55%, #0ea5e9); }
+.secondary { background: linear-gradient(180deg, #1e293b, #0f172a); border-color: #475569; }
+.danger { background: linear-gradient(90deg, #dc2626, #b91c1c 60%, #ef4444); }
+
+audio { width: 100%; margin-top: 8px; filter: hue-rotate(185deg) saturate(1.15); }
+
+.score-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.score-label { font-size: 0.95rem; color: #93a4bc; }
+.score { font-size: 2.2rem; font-weight: 800; color: #22d3ee; }
+.level-chip {
+  background: #14532d;
+  color: #d1fae5;
+  border: 1px solid #166534;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+.transcript {
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+  background: #0b1222;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 10px;
+}
+.warning {
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+  color: #fde68a;
+  background: rgba(180, 83, 9, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: 8px;
+  padding: 10px;
+}
+.feedback-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  width: 100%;
+  max-width: 560px;
+  align-self: center;
+}
+.feedback-list li { margin: 6px 0; }
+
+.placeholder {
+  border: 1px dashed #475569;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+@media (max-width: 900px) {
+  .layout { flex-direction: column; }
+  .hero { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.55rem; }
+  #root { padding: 16px 12px 24px; }
+  .hero { align-items: center; text-align: center; }
+  .controls, .actions { flex-direction: column; align-items: stretch; }
+  .controls { justify-content: stretch; }
+  button { width: 100%; min-width: 0; }
+  label { text-align: center; }
+  .pill { align-self: center; }
+}

@@ -1,0 +1,21 @@
+{
+  "accent_ml": {
+    "enabled": true,
+    "head_path": "c:\\Accent_Cursor\\runs\\accent_head\\accent_head_best.pt",
+    "calibration_path": "c:\\Accent_Cursor\\runs\\accent_head\\calibration.json"
+  },
+  "accent": {
+    "z_baseline": 86.0,
+    "z_slope": 6.5,
+    "min_score": 35.0,
+    "max_score": 98.0
+  },
+  "overall": {
+    "w_content": 0.45,
+    "w_accent": 0.3,
+    "w_phoneme": 0.25
+  },
+  "feedback": {
+    "weak_phone_threshold": 72.0
+  }
+}
