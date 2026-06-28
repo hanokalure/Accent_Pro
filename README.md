@@ -1,86 +1,135 @@
-# Accent Scoring Project
+# 🎙️ Accent Scoring Project
 
-End-to-end pronunciation scoring prototype with:
-- HuBERT-based ASR model inference
-- word/phoneme scoring
-- CTC alignment timestamps
-- coaching feedback tips
-- FastAPI backend + browser demo frontend
+An end-to-end pronunciation scoring system powered by **HuBERT** and **Wav2Vec2**, designed to evaluate spoken English with detailed pronunciation analysis and coaching feedback.
 
-## Active Production Model
+## ✨ Features
 
-Configured in `model_registry.json`:
-- key: `hubert_stage3_large_ft_v1`
-- path: `c:\Accent_Cursor\runs\hubert_stage3_large_ft\final`
+- 🎤 Automatic Speech Recognition (ASR)
+- 🗣️ Accent & pronunciation scoring
+- 🔤 Word and phoneme-level scores
+- ⏱️ CTC word timestamps
+- 💡 Personalized pronunciation tips
+- 🌐 FastAPI backend with browser demo
 
-## Checkpoints
+---
 
-Periodic backups are stored under `c:\Accent_Cursor_checkpoints\` (folder + zip).  
-Example: `checkpoint_good_work_YYYYMMDD_HHMMSS`.
+## 🤖 Active Model
 
-## Tunable scoring
+The production model is configured in `model_registry.json`.
 
-Edit `scoring_calib.json` to adjust accent curve and overall weights without code changes. Restart the server after edits.
+**Current Model**
+- **Key:** `hubert_stage3_large_ft_v1`
+- **Path:** `c:\Accent_Cursor\runs\hubert_stage3_large_ft\final`
 
-## Dual-model (Wav2Vec2 + HuBERT)
+---
 
-When `dual_model.enabled` is true in `model_registry.json`:
+## ⚙️ Dual Model Mode
 
-- **Wav2Vec2** (`content_model_path`): transcript, WER, confidence, CTC alignment.
-- **HuBERT** (active model): accent embedding vs native centroid.
+Enable `dual_model.enabled = true` in `model_registry.json`.
 
-Disable dual mode (`"enabled": false`) if GPU memory is tight (4 GB laptops).
+| Model | Purpose |
+|-------|---------|
+| 📝 **Wav2Vec2** | Transcript, WER, confidence & CTC alignment |
+| 🎯 **HuBERT** | Accent embedding & pronunciation scoring |
 
-Default overall blend (see `scoring_calib.json`): roughly **42% content / 35% accent / 23% phoneme**.
+> 💻 For systems with **4 GB GPU memory**, disable dual mode for smoother performance.
 
-## Labeled accent training (new)
+---
 
-Use labeled manifest template:
-- `data/labeled_accent/manifest_template.csv`
+## 📊 Scoring Weights
 
-Train accent head (regression + optional class):
+Default overall score:
+
+- 📝 **Content:** 42%
+- 🎯 **Accent:** 35%
+- 🔤 **Phoneme:** 23%
+
+You can customize these weights in **`scoring_calib.json`** without changing the code.
+
+> 🔄 Restart the API after editing the calibration file.
+
+---
+
+## 🏋️ Training the Accent Head
+
+Train using a labeled pronunciation dataset:
 
 ```bash
-python train_accent_labeled.py --manifest "c:\Accent_Cursor\data\labeled_accent\manifest_template.csv"
+python train_accent_labeled.py --manifest data/labeled_accent/manifest_template.csv
 ```
 
-Calibrate head output on validation split:
+Calibrate the trained model:
 
 ```bash
-python calibrate_accent_head.py --manifest "c:\Accent_Cursor\data\labeled_accent\manifest_template.csv"
+python calibrate_accent_head.py --manifest data/labeled_accent/manifest_template.csv
 ```
 
-Artifacts:
-- `runs/accent_head/accent_head_best.pt`
-- `runs/accent_head/metrics.json`
-- `runs/accent_head/calibration.json`
+Generated artifacts:
 
-## Run
+- ✅ `runs/accent_head/accent_head_best.pt`
+- ✅ `runs/accent_head/calibration.json`
+- ✅ `runs/accent_head/metrics.json`
+
+---
+
+## 🚀 Getting Started
+
+Install dependencies:
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
+```
+
+Start the API:
+
+```bash
 python run_api.py
 ```
 
-Open:
-- frontend: `http://localhost:8000`
-- health: `http://localhost:8000/health`
-- model info: `http://localhost:8000/model-info`
+---
 
-## API Endpoints
+## 🌍 Local URLs
 
-- `POST /score`  
-  Full response (typed schema) with transcript, scores, timestamps, feedback.
+| Service | URL |
+|---------|-----|
+| 🖥️ Frontend | http://localhost:8000 |
+| ❤️ Health Check | http://localhost:8000/health |
+| ℹ️ Model Info | http://localhost:8000/model-info |
 
-- `POST /score-compact`  
-  Smaller payload for mobile/lightweight clients.
+---
 
-Form fields:
-- `prompt_text` (string)
-- `audio_file` (file, wav/webm recommended)
+## 📡 API Endpoints
 
-## Notes
+| Endpoint | Description |
+|----------|-------------|
+| `POST /score` | Full pronunciation analysis |
+| `POST /score-compact` | Lightweight response for mobile |
 
-- Current overall accuracy is ASR-derived (`1 - WER`) baseline.
-- Pronunciation coaching layer uses alignment + phoneme heuristics.
-- For strict pronunciation benchmarking, add human-rated pronunciation labels.
+### Required Form Fields
+
+- `prompt_text`
+- `audio_file`
+
+---
+
+## 💾 Backups
+
+Automatic checkpoints are stored in:
+
+```text
+c:\Accent_Cursor_checkpoints\
+```
+
+Example:
+
+```text
+checkpoint_good_work_YYYYMMDD_HHMMSS
+```
+
+---
+
+## 📝 Notes
+
+- 📈 Overall accuracy currently uses **1 − WER** as the baseline.
+- 🎯 Pronunciation coaching combines phoneme heuristics with CTC alignment.
+- ⭐ For production-quality pronunciation scoring, training with **human-rated pronunciation labels** is highly recommended.
